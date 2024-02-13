@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+    postgres:
+      image: postgres
+      volumes:
+        - ./docker/postgres/data:/var/lib/postgresql/data
+      environment:
+        - POSTGRES_DB=mvc
+        - POSTGRES_USER=amir
+        - POSTGRES_PASSWORD=12345678  
+      ports:
+        - 5432:5432
+    app:
+      container_name: mvc_app
+      build: 
+        context: .
+        dockerfile: ./docker/go/Dockerfile
+      ports:
+        - 7878:8000
+      depends_on:
+      - postgres
